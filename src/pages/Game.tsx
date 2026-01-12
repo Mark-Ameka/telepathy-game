@@ -17,6 +17,7 @@ import { WordHistory } from "../components/game/WordHistory";
 import { useGameStore } from "../stores/gameStore";
 import { useSocket } from "../hooks/useSocket";
 import { Brain, LogOut, Trophy } from "lucide-react";
+import { ProcessingLoader } from "@/components/game/ProcessingLoader";
 
 export const Game: React.FC = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export const Game: React.FC = () => {
   const opponent = currentRoom.players.find((p) => p.username !== username);
   const currentSetData = currentRoom.sets[currentRoom.currentSet - 1];
   const isGameCompleted = currentRoom.status === "completed";
+  const isProcessing = currentRoom.isProcessing || false;
 
   const handleLeave = () => {
     if (confirm("Are you sure you want to leave the game?")) {
@@ -47,17 +49,19 @@ export const Game: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-4">
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-4">
+      {isProcessing && <ProcessingLoader />}
+
       <div className="max-w-6xl mx-auto py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-400 rounded-full flex items-center justify-center">
-              <Brain className="w-6 h-6 text-black" />
+            <div className="w-12 h-12 bg-gradient-to-br from-gray-800 to-gray-600 rounded-full flex items-center justify-center">
+              <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-2xl font-bold">Room: {currentRoom.code}</h1>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600">
                 Set {currentRoom.currentSet} of {currentRoom.totalSets}
               </p>
             </div>
@@ -73,7 +77,7 @@ export const Game: React.FC = () => {
           <div className="text-center py-12">
             <Trophy className="w-24 h-24 mx-auto mb-6 text-yellow-500" />
             <h2 className="text-4xl font-bold mb-4">Congratulations!</h2>
-            <p className="text-xl text-gray-400 mb-8">
+            <p className="text-xl text-gray-600 mb-8">
               You've completed all {currentRoom.totalSets} sets!
             </p>
             <Button onClick={handleLeave} size="lg">
@@ -84,13 +88,13 @@ export const Game: React.FC = () => {
           /* Waiting for Opponent */
           <div className="text-center py-12">
             <div className="animate-pulse mb-6">
-              <Brain className="w-24 h-24 mx-auto text-gray-700" />
+              <Brain className="w-24 h-24 mx-auto text-gray-300" />
             </div>
             <h2 className="text-2xl font-bold mb-4">Waiting for opponent...</h2>
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-600 mb-4">
               Share this room code with a friend:
             </p>
-            <div className="inline-block px-8 py-4 bg-white text-black rounded-lg">
+            <div className="inline-block px-8 py-4 bg-gray-900 text-white rounded-lg">
               <p className="text-4xl font-bold font-mono tracking-wider">
                 {currentRoom.code}
               </p>
@@ -148,7 +152,7 @@ export const Game: React.FC = () => {
                 <CardHeader>
                   <CardTitle>Tips</CardTitle>
                 </CardHeader>
-                <CardContent className="text-sm text-gray-400 space-y-2">
+                <CardContent className="text-sm text-gray-600 space-y-2">
                   <p>• Think about what your opponent might choose</p>
                   <p>• Use the similarity scores to guide your next guess</p>
                   <p>• Higher percentages mean you're getting closer</p>

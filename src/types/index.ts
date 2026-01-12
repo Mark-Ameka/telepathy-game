@@ -33,6 +33,7 @@ export interface Room {
   sets: GameSet[];
   status: "waiting" | "playing" | "completed";
   createdAt: number;
+  isProcessing?: boolean;
 }
 
 export interface ComparisonResult {

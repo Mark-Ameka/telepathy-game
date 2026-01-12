@@ -20,17 +20,17 @@ export const WordHistory: React.FC<WordHistoryProps> = ({ history }) => {
   const getTrendIcon = (current: number, previous?: number) => {
     if (!previous) return <Minus className="w-4 h-4 text-gray-500" />;
     if (current > previous)
-      return <TrendingUp className="w-4 h-4 text-green-500" />;
+      return <TrendingUp className="w-4 h-4 text-green-600" />;
     if (current < previous)
-      return <TrendingDown className="w-4 h-4 text-red-500" />;
+      return <TrendingDown className="w-4 h-4 text-red-600" />;
     return <Minus className="w-4 h-4 text-gray-500" />;
   };
 
   const getSimilarityColor = (similarity: number) => {
-    if (similarity >= 80) return "text-green-500";
-    if (similarity >= 50) return "text-yellow-500";
-    if (similarity >= 25) return "text-orange-500";
-    return "text-red-500";
+    if (similarity >= 80) return "text-green-600";
+    if (similarity >= 50) return "text-yellow-600";
+    if (similarity >= 25) return "text-orange-600";
+    return "text-red-600";
   };
 
   return (
@@ -46,7 +46,7 @@ export const WordHistory: React.FC<WordHistoryProps> = ({ history }) => {
           return (
             <div
               key={pair.timestamp}
-              className="p-3 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+              className="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors bg-white"
             >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex-1">
@@ -58,14 +58,14 @@ export const WordHistory: React.FC<WordHistoryProps> = ({ history }) => {
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <div>
-                      <span className="text-gray-400">P1:</span>
-                      <span className="ml-2 font-medium">
+                      <span className="text-gray-600">P1:</span>
+                      <span className="ml-2 font-medium text-gray-900">
                         {pair.player1Word}
                       </span>
                     </div>
                     <div>
-                      <span className="text-gray-400">P2:</span>
-                      <span className="ml-2 font-medium">
+                      <span className="text-gray-600">P2:</span>
+                      <span className="ml-2 font-medium text-gray-900">
                         {pair.player2Word}
                       </span>
                     </div>

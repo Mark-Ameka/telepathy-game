@@ -27,14 +27,16 @@ export const JoinRoom: React.FC = () => {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-2">Room Code:</label>
+        <label className="block text-sm font-medium mb-2 text-gray-900">
+          Room Code:
+        </label>
         <Input
           type="text"
           value={roomCode}
           onChange={(e) =>
             setRoomCode(e.target.value.replace(/\D/g, "").slice(0, 6))
           }
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
           placeholder="Enter 6-digit code"
           className="text-lg text-center tracking-widest"
           maxLength={6}

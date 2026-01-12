@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { socketService } from "../services/socket";
 import { useGameStore } from "../stores/gameStore";
 import { useSocketStore } from "../stores/socketStore";
-import { SOCKET_EVENTS, Room, ComparisonResult } from "../types/index";
+import { SOCKET_EVENTS, Room, ComparisonResult } from "../types";
 
 export const useSocket = () => {
   const navigate = useNavigate();
@@ -42,9 +42,16 @@ export const useSocket = () => {
       updateRoom(room);
     });
 
-    socket.on(SOCKET_EVENTS.PLAYER_LEFT, (room: Room) => {
-      updateRoom(room);
-    });
+    socket.on(
+      SOCKET_EVENTS.PLAYER_LEFT,
+      (data: { room: Room | null; message?: string }) => {
+        if (data.message) {
+          alert(data.message);
+        }
+        reset();
+        navigate("/lobby");
+      },
+    );
 
     socket.on(SOCKET_EVENTS.COMPARISON_RESULT, (result: ComparisonResult) => {
       console.log("Comparison result:", result);

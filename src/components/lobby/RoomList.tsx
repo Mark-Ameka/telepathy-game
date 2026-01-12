@@ -65,12 +65,14 @@ export const RoomList: React.FC = () => {
             {rooms.map((room) => (
               <div
                 key={room.code}
-                className="p-3 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                className="p-3 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors bg-white"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-mono text-lg font-bold">{room.code}</p>
-                    <p className="text-sm text-gray-400">
+                    <p className="font-mono text-lg font-bold text-gray-900">
+                      {room.code}
+                    </p>
+                    <p className="text-sm text-gray-600">
                       {room.players[0]?.username}'s room • {room.totalSets} sets
                     </p>
                   </div>

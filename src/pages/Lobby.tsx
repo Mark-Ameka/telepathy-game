@@ -26,16 +26,16 @@ export const Lobby: React.FC = () => {
   }, [username, navigate]);
 
   return (
-    <div className="min-h-screen bg-black text-white p-4">
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-4">
       <div className="max-w-4xl mx-auto py-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-400 rounded-full flex items-center justify-center">
-              <Brain className="w-6 h-6 text-black" />
+            <div className="w-12 h-12 bg-gradient-to-br from-gray-800 to-gray-600 rounded-full flex items-center justify-center">
+              <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-2xl font-bold">Telepathy Game</h1>
-              <p className="text-sm text-gray-400">Welcome, {username}!</p>
+              <p className="text-sm text-gray-600">Welcome, {username}!</p>
             </div>
           </div>
           <Button onClick={() => navigate("/")} variant="ghost" size="sm">

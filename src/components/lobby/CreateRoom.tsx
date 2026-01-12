@@ -21,7 +21,7 @@ export const CreateRoom: React.FC = () => {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-2">
+        <label className="block text-sm font-medium mb-2 text-gray-900">
           Number of Sets (1-10):
         </label>
         <Input

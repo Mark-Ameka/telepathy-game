@@ -38,9 +38,11 @@ export const WordInput: React.FC = () => {
   if (hasSubmitted) {
     return (
       <div className="space-y-4">
-        <div className="p-4 border border-gray-700 rounded-lg bg-gray-900">
-          <p className="text-sm text-gray-400 mb-2">Your word:</p>
-          <p className="text-2xl font-bold">{currentPlayer?.currentWord}</p>
+        <div className="p-4 border border-gray-300 rounded-lg bg-gray-50">
+          <p className="text-sm text-gray-600 mb-2">Your word:</p>
+          <p className="text-2xl font-bold text-gray-900">
+            {currentPlayer?.currentWord}
+          </p>
         </div>
         <Button onClick={handleChange} variant="outline" className="w-full">
           Change Word
@@ -52,7 +54,7 @@ export const WordInput: React.FC = () => {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-2">
+        <label className="block text-sm font-medium mb-2 text-gray-900">
           Enter your word:
         </label>
         <Input

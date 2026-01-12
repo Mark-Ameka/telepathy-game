@@ -22,9 +22,9 @@ export const ReadyButton: React.FC = () => {
 
   if (isReady) {
     return (
-      <div className="flex items-center justify-center space-x-2 p-4 border border-green-500 rounded-lg bg-green-950">
-        <CheckCircle className="w-5 h-5 text-green-500" />
-        <span className="text-green-500 font-medium">You are ready!</span>
+      <div className="flex items-center justify-center space-x-2 p-4 border border-green-600 rounded-lg bg-green-50">
+        <CheckCircle className="w-5 h-5 text-green-600" />
+        <span className="text-green-700 font-medium">You are ready!</span>
       </div>
     );
   }
