@@ -23,7 +23,7 @@ import { Brain, LogOut, Trophy } from "lucide-react";
 export const Game: React.FC = () => {
   const navigate = useNavigate();
   const { currentRoom, username } = useGameStore();
-  const { leaveRoom, continueToNextSet } = useSocket();
+  const { leaveRoom, continueToNextSet, clearHistory } = useSocket();
 
   useEffect(() => {
     if (!currentRoom || !username) {
@@ -60,6 +60,16 @@ export const Game: React.FC = () => {
 
   const handleContinue = () => {
     continueToNextSet();
+  };
+
+  const handleClearHistory = () => {
+    if (
+      confirm(
+        "Are you sure you want to clear the attempt history? This will reset your attempt count.",
+      )
+    ) {
+      clearHistory();
+    }
   };
 
   return (
@@ -151,7 +161,35 @@ export const Game: React.FC = () => {
               {/* History */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Attempt History</CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle>Attempt History</CardTitle>
+                    {currentSetData.history.length > 0 && (
+                      <Button
+                        onClick={handleClearHistory}
+                        variant="outline"
+                        size="sm"
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="mr-2"
+                        >
+                          <path d="M3 6h18" />
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        </svg>
+                        Clear History
+                      </Button>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <WordHistory history={currentSetData.history} />

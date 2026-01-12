@@ -70,6 +70,11 @@ export const useSocket = () => {
       updateRoom(room);
     });
 
+    socket.on(SOCKET_EVENTS.HISTORY_CLEARED, (room: Room) => {
+      console.log("History cleared");
+      updateRoom(room);
+    });
+
     socket.on(SOCKET_EVENTS.ERROR, ({ message }: { message: string }) => {
       console.error("Socket error:", message);
       alert(message);
@@ -86,6 +91,7 @@ export const useSocket = () => {
       socket.off(SOCKET_EVENTS.COMPARISON_RESULT);
       socket.off(SOCKET_EVENTS.SET_COMPLETED);
       socket.off(SOCKET_EVENTS.GAME_COMPLETED);
+      socket.off(SOCKET_EVENTS.HISTORY_CLEARED);
       socket.off(SOCKET_EVENTS.ERROR);
     };
   }, []);
@@ -124,6 +130,10 @@ export const useSocket = () => {
     socketService.emit(SOCKET_EVENTS.CONTINUE_TO_NEXT_SET);
   };
 
+  const clearHistory = () => {
+    socketService.emit(SOCKET_EVENTS.CLEAR_HISTORY);
+  };
+
   return {
     createRoom,
     joinRoom,
@@ -133,5 +143,6 @@ export const useSocket = () => {
     changeWord,
     getRooms,
     continueToNextSet,
+    clearHistory,
   };
 };

@@ -239,15 +239,41 @@ npm install
 
 ## 📊 Game Mechanics
 
-### Word Similarity Scoring
+### Smart Word Matching
 
-The game uses Ollama LLM to analyze semantic similarity:
+The game uses a two-step approach for word comparison:
+
+1. **Direct Comparison** (Instant):
+   - Removes all whitespace from both words
+   - Converts to lowercase
+   - Compares directly
+   - Examples that match instantly:
+     - "iron man" ↔ "ironman" ✅
+     - "New York" ↔ "newyork" ✅
+     - "Spider-Man" ↔ "spiderman" ✅
+
+2. **AI Semantic Analysis** (If direct comparison fails):
+   - Uses Ollama LLM for semantic similarity
+   - Provides 0-100% similarity score
+   - Explains the relationship between words
+
+### Similarity Scoring (AI Analysis)
+
+When words don't match directly, Ollama evaluates:
 
 - **0-24%**: Completely unrelated
 - **25-49%**: Loosely related
 - **50-74%**: Somewhat related
 - **75-99%**: Closely related
-- **100%**: Exact match (set complete!)
+- **100%**: Perfect synonyms or semantic match
+
+### Clear History Feature
+
+- Reset attempt count and history at any time
+- Keeps current set and progress
+- Requires confirmation to prevent accidents
+- Synced across both players
+- Useful for starting fresh without losing set progress
 
 ### Set Completion
 

@@ -53,6 +53,7 @@ export const SOCKET_EVENTS = {
   CHANGE_WORD: "change_word",
   GET_ROOMS: "get_rooms",
   CONTINUE_TO_NEXT_SET: "continue_to_next_set",
+  CLEAR_HISTORY: "clear_history",
   ROOM_CREATED: "room_created",
   ROOM_JOINED: "room_joined",
   ROOM_LEFT: "room_left",
@@ -67,4 +68,5 @@ export const SOCKET_EVENTS = {
   ROOMS_LIST: "rooms_list",
   ERROR: "error",
   RECONNECTED: "reconnected",
+  HISTORY_CLEARED: "history_cleared",
 } as const;
