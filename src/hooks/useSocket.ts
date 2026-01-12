@@ -120,6 +120,10 @@ export const useSocket = () => {
     socketService.emit(SOCKET_EVENTS.GET_ROOMS);
   };
 
+  const continueToNextSet = () => {
+    socketService.emit(SOCKET_EVENTS.CONTINUE_TO_NEXT_SET);
+  };
+
   return {
     createRoom,
     joinRoom,
@@ -128,5 +132,6 @@ export const useSocket = () => {
     setReady,
     changeWord,
     getRooms,
+    continueToNextSet,
   };
 };

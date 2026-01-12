@@ -14,15 +14,16 @@ import { PlayerStatus } from "../components/game/PlayerStatus";
 import { ReadyButton } from "../components/game/ReadyButton";
 import { GameProgress } from "../components/game/GameProgress";
 import { WordHistory } from "../components/game/WordHistory";
+import { ProcessingLoader } from "../components/game/ProcessingLoader";
+import { SetCompleteDialog } from "../components/game/SetCompleteDialog";
 import { useGameStore } from "../stores/gameStore";
 import { useSocket } from "../hooks/useSocket";
 import { Brain, LogOut, Trophy } from "lucide-react";
-import { ProcessingLoader } from "@/components/game/ProcessingLoader";
 
 export const Game: React.FC = () => {
   const navigate = useNavigate();
   const { currentRoom, username } = useGameStore();
-  const { leaveRoom } = useSocket();
+  const { leaveRoom, continueToNextSet } = useSocket();
 
   useEffect(() => {
     if (!currentRoom || !username) {
@@ -41,6 +42,15 @@ export const Game: React.FC = () => {
   const currentSetData = currentRoom.sets[currentRoom.currentSet - 1];
   const isGameCompleted = currentRoom.status === "completed";
   const isProcessing = currentRoom.isProcessing || false;
+  const showSetComplete = currentRoom.showSetComplete || false;
+
+  // Get the matched word from the last history entry
+  const lastMatch =
+    currentSetData.history.length > 0
+      ? currentSetData.history[currentSetData.history.length - 1]
+      : null;
+  const matchedWord =
+    lastMatch?.similarity === 100 ? lastMatch.player1Word : "";
 
   const handleLeave = () => {
     if (confirm("Are you sure you want to leave the game?")) {
@@ -48,9 +58,21 @@ export const Game: React.FC = () => {
     }
   };
 
+  const handleContinue = () => {
+    continueToNextSet();
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 p-4">
-      {isProcessing && <ProcessingLoader />}
+      <ProcessingLoader isOpen={isProcessing} />
+      <SetCompleteDialog
+        isOpen={showSetComplete}
+        setNumber={currentRoom.currentSet}
+        totalSets={currentRoom.totalSets}
+        matchedWord={matchedWord}
+        attempts={currentSetData.attempts}
+        onContinue={handleContinue}
+      />
 
       <div className="max-w-6xl mx-auto py-8">
         {/* Header */}

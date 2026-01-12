@@ -34,6 +34,7 @@ export interface Room {
   status: "waiting" | "playing" | "completed";
   createdAt: number;
   isProcessing?: boolean;
+  showSetComplete?: boolean;
 }
 
 export interface ComparisonResult {
@@ -51,6 +52,7 @@ export const SOCKET_EVENTS = {
   READY: "ready",
   CHANGE_WORD: "change_word",
   GET_ROOMS: "get_rooms",
+  CONTINUE_TO_NEXT_SET: "continue_to_next_set",
   ROOM_CREATED: "room_created",
   ROOM_JOINED: "room_joined",
   ROOM_LEFT: "room_left",
