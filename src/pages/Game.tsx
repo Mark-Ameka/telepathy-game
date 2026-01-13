@@ -152,7 +152,7 @@ export const Game: React.FC = () => {
               Share this room code with a friend:
             </p>
             <div className="inline-block px-8 py-4 bg-gray-900 text-white rounded-lg">
-              <p className="text-4xl font-bold font-mono tracking-wider">
+              <p className="text-4xl font-bold tracking-wider">
                 {currentRoom.code}
               </p>
             </div>

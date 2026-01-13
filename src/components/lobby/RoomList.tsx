@@ -69,7 +69,7 @@ export const RoomList: React.FC = () => {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-mono text-lg font-bold text-gray-900">
+                    <p className="text-lg font-bold text-gray-900">
                       {room.code}
                     </p>
                     <p className="text-sm text-gray-600">
