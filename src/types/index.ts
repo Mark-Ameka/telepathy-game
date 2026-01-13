@@ -21,6 +21,8 @@ export interface GameSet {
   isComplete: boolean;
   attempts: number;
   history: WordPair[];
+  category?: string;
+  categoryChooser?: string; // player ID
 }
 
 export interface Room {
@@ -35,6 +37,8 @@ export interface Room {
   createdAt: number;
   isProcessing?: boolean;
   showSetComplete?: boolean;
+  usesCategories: boolean;
+  waitingForCategory?: boolean;
 }
 
 export interface ComparisonResult {
@@ -43,6 +47,24 @@ export interface ComparisonResult {
   similarity: number;
   explanation: string;
 }
+
+export const PREDEFINED_CATEGORIES = [
+  "Animals",
+  "Food & Drinks",
+  "Sports",
+  "Movies & TV",
+  "Countries",
+  "Technology",
+  "Music",
+  "Nature",
+  "Colors",
+  "Professions",
+  "Transportation",
+  "Hobbies",
+  "Historical Figures",
+  "Emotions",
+  "Superheroes",
+] as const;
 
 export const SOCKET_EVENTS = {
   CREATE_ROOM: "create_room",
@@ -54,6 +76,7 @@ export const SOCKET_EVENTS = {
   GET_ROOMS: "get_rooms",
   CONTINUE_TO_NEXT_SET: "continue_to_next_set",
   CLEAR_HISTORY: "clear_history",
+  SELECT_CATEGORY: "select_category",
   ROOM_CREATED: "room_created",
   ROOM_JOINED: "room_joined",
   ROOM_LEFT: "room_left",
@@ -69,4 +92,5 @@ export const SOCKET_EVENTS = {
   ERROR: "error",
   RECONNECTED: "reconnected",
   HISTORY_CLEARED: "history_cleared",
+  CATEGORY_SELECTED: "category_selected",
 } as const;

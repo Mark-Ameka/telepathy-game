@@ -16,14 +16,16 @@ import { GameProgress } from "../components/game/GameProgress";
 import { WordHistory } from "../components/game/WordHistory";
 import { ProcessingLoader } from "../components/game/ProcessingLoader";
 import { SetCompleteDialog } from "../components/game/SetCompleteDialog";
+import { CategorySelector } from "../components/game/CategorySelector";
 import { useGameStore } from "../stores/gameStore";
 import { useSocket } from "../hooks/useSocket";
-import { Brain, LogOut, Trophy } from "lucide-react";
+import { Brain, LogOut, Trophy, Tag } from "lucide-react";
 
 export const Game: React.FC = () => {
   const navigate = useNavigate();
   const { currentRoom, username } = useGameStore();
-  const { leaveRoom, continueToNextSet, clearHistory } = useSocket();
+  const { leaveRoom, continueToNextSet, clearHistory, selectCategory } =
+    useSocket();
 
   useEffect(() => {
     if (!currentRoom || !username) {
@@ -43,6 +45,10 @@ export const Game: React.FC = () => {
   const isGameCompleted = currentRoom.status === "completed";
   const isProcessing = currentRoom.isProcessing || false;
   const showSetComplete = currentRoom.showSetComplete || false;
+  const waitingForCategory = currentRoom.waitingForCategory || false;
+  const isCategoryChooser =
+    currentSetData.categoryChooser === currentPlayer?.id;
+  const showCategorySelector = waitingForCategory && isCategoryChooser;
 
   // Get the matched word from the last history entry
   const lastMatch =
@@ -72,9 +78,14 @@ export const Game: React.FC = () => {
     }
   };
 
+  const handleSelectCategory = (category: string) => {
+    selectCategory(category);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 p-4">
-      <ProcessingLoader isOpen={isProcessing} />
+      {!isGameCompleted && <ProcessingLoader isOpen={isProcessing} />}
+
       <SetCompleteDialog
         isOpen={showSetComplete}
         setNumber={currentRoom.currentSet}
@@ -83,6 +94,14 @@ export const Game: React.FC = () => {
         attempts={currentSetData.attempts}
         onContinue={handleContinue}
       />
+
+      {!isGameCompleted && (
+        <CategorySelector
+          isOpen={showCategorySelector}
+          playerName={currentPlayer?.username || ""}
+          onSelect={handleSelectCategory}
+        />
+      )}
 
       <div className="max-w-6xl mx-auto py-8">
         {/* Header */}
@@ -95,6 +114,12 @@ export const Game: React.FC = () => {
               <h1 className="text-2xl font-bold">Room: {currentRoom.code}</h1>
               <p className="text-sm text-gray-600">
                 Set {currentRoom.currentSet} of {currentRoom.totalSets}
+                {currentSetData.category && (
+                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                    <Tag className="w-3 h-3 mr-1" />
+                    {currentSetData.category}
+                  </span>
+                )}
               </p>
             </div>
           </div>
@@ -131,6 +156,23 @@ export const Game: React.FC = () => {
                 {currentRoom.code}
               </p>
             </div>
+          </div>
+        ) : waitingForCategory ? (
+          /* Waiting for Category Selection */
+          <div className="text-center py-12">
+            <div className="mb-6">
+              <Tag className="w-24 h-24 mx-auto text-purple-400" />
+            </div>
+            <h2 className="text-2xl font-bold mb-4">
+              {isCategoryChooser
+                ? "Choose a Category"
+                : "Waiting for Category..."}
+            </h2>
+            <p className="text-gray-600">
+              {isCategoryChooser
+                ? "Select a category for this set"
+                : `${currentSetData.categoryChooser === opponent?.id && opponent ? opponent.username : "Your opponent"} is choosing the category...`}
+            </p>
           </div>
         ) : (
           /* Active Game */
@@ -213,6 +255,11 @@ export const Game: React.FC = () => {
                   <CardTitle>Tips</CardTitle>
                 </CardHeader>
                 <CardContent className="text-sm text-gray-600 space-y-2">
+                  {currentSetData.category && (
+                    <p className="font-medium text-purple-700">
+                      🏷️ Think of words in: {currentSetData.category}
+                    </p>
+                  )}
                   <p>• Think about what your opponent might choose</p>
                   <p>• Use the similarity scores to guide your next guess</p>
                   <p>• Higher percentages mean you're getting closer</p>

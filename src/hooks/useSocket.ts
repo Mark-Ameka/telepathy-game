@@ -75,6 +75,14 @@ export const useSocket = () => {
       updateRoom(room);
     });
 
+    socket.on(
+      SOCKET_EVENTS.CATEGORY_SELECTED,
+      ({ category, room }: { category: string; room: Room }) => {
+        console.log("Category selected:", category);
+        updateRoom(room);
+      },
+    );
+
     socket.on(SOCKET_EVENTS.ERROR, ({ message }: { message: string }) => {
       console.error("Socket error:", message);
       alert(message);
@@ -96,8 +104,16 @@ export const useSocket = () => {
     };
   }, []);
 
-  const createRoom = (username: string, totalSets: number) => {
-    socketService.emit(SOCKET_EVENTS.CREATE_ROOM, { username, totalSets });
+  const createRoom = (
+    username: string,
+    totalSets: number,
+    usesCategories: boolean,
+  ) => {
+    socketService.emit(SOCKET_EVENTS.CREATE_ROOM, {
+      username,
+      totalSets,
+      usesCategories,
+    });
   };
 
   const joinRoom = (username: string, roomCode: string) => {
@@ -134,6 +150,10 @@ export const useSocket = () => {
     socketService.emit(SOCKET_EVENTS.CLEAR_HISTORY);
   };
 
+  const selectCategory = (category: string) => {
+    socketService.emit(SOCKET_EVENTS.SELECT_CATEGORY, { category });
+  };
+
   return {
     createRoom,
     joinRoom,
@@ -144,5 +164,6 @@ export const useSocket = () => {
     getRooms,
     continueToNextSet,
     clearHistory,
+    selectCategory,
   };
 };
